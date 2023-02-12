@@ -1,0 +1,9 @@
+.wrap {
+    cursor: pointer;
+}
+
+.btnWrap {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+}

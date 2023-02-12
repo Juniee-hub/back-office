@@ -1,0 +1,58 @@
+.body {
+    min-height: 100vh;
+}
+.headWrap {
+    display: flex;
+    gap: 1rem;
+}
+.logoWrap {
+    background-color: transparent;
+    color: tomato;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logoWrap:hover {
+    cursor: pointer;
+}
+
+.navMenu {
+    flex: 3;
+}
+
+.mainWrap {
+    padding: 0 50px 10px 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.navi {
+    margin: 1rem 0;
+}
+
+.container {
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 0px 20px 5px rgb(0 0 0 / 16%);
+}
+
+.container :global(.ant-layout-sider-trigger) {
+    position: initial;
+}
+
+.container .side {
+    border-radius: 10px;
+}
+
+.content {
+    padding: 1rem;
+    overflow: auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

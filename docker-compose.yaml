@@ -1,0 +1,53 @@
+version: '3.9'
+
+networks:
+    app-tier:
+        driver: bridge
+
+services:
+    nginx:
+        networks:
+            - app-tier
+        extra_hosts:
+            - 'host.docker,internal:host-gateway'
+        container_name: conference-nginx
+        restart: on-failure
+        build:
+            context: ./.docker/nginx
+        ports:
+            - '80:8888'
+            - '443:4433'
+        volumes:
+            - ./.docker/certbot/conf:/etc/letsencrypt #동일한 디렉토리를 마운트
+            - ./.docker/certbot/www:/var/www/certbot
+        command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+
+    mariadb:
+        networks:
+            - app-tier
+        image: mariadb:10.0
+        container_name: conference-mariadb
+        restart: always
+        ports:
+            - '${DB_PORT}:3306'
+        environment:
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_USERPASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
+
+    # certbot:
+    #     image: certbot/certbot
+    #     restart: unless-stopped
+    #     container_name: certbot
+    #     volumes:
+    #         - ./.docker/certbot/conf:/etc/letsencrypt #nginx컨테이너에 certbot컨테이너 연결
+    #         - ./.docker/certbot/www:/var/www/certbot
+    #     depends_on:
+    #         - nginx
+    #     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

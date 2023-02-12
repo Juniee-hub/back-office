@@ -1,0 +1,22 @@
+@value defaultLayer from 'styles/values.css';
+
+.wrap {
+    z-index: defaultLayer;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    overflow: hidden;
+    inset: 0;
+    animation: fade-in 0.3s ease-in-out 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
