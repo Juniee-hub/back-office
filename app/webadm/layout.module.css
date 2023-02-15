@@ -4,21 +4,31 @@
 .headWrap {
     display: flex;
     gap: 1rem;
+    justify-content: space-between;
+    position: sticky;
+    top: 0px;
+    align-items: center;
 }
 .logoWrap {
     background-color: transparent;
-    color: tomato;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    flex: 1;
+    height: 45px;
 }
 .logoWrap:hover {
     cursor: pointer;
 }
 
 .navMenu {
-    flex: 3;
+    flex: 2;
+    overflow-x: auto;
+}
+
+.profileWrap {
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
 }
 
 .mainWrap {

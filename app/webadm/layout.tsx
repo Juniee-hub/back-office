@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
-import { MenuProps, Slider } from 'antd'
+import Image from 'next/image'
 import { DashboardOutlined, ProfileOutlined, UserOutlined, UnorderedListOutlined, ExportOutlined, SwapRightOutlined } from '@ant-design/icons'
-import { Breadcrumb, Layout, Menu, theme } from 'antd'
+import { Breadcrumb, Layout, Menu } from 'antd'
 
 import AdminProfile from '@/components/layout/profile'
+import Clock from '@/components/layout/clock'
 
 //TODO: 테마...
 import styles from './layout.module.css'
@@ -62,9 +63,14 @@ const AdminLayout = ({ children }: PropsType) => {
     return (
         <Layout className={styles.body}>
             <Header className={styles.headWrap}>
-                <div className={styles.logoWrap}>Logo 자리...</div>
                 <Menu mode={'horizontal'} theme={'dark'} items={navMenu} defaultSelectedKeys={['3']} className={styles.navMenu} />
-                <AdminProfile />
+                <div className={styles.logoWrap}>
+                    <Image src={'/images/logo.png'} fill alt={'logo..'} priority />
+                </div>
+                <div className={styles.profileWrap}>
+                    <Clock />
+                    <AdminProfile />
+                </div>
             </Header>
 
             <Content className={styles.mainWrap}>
@@ -76,7 +82,7 @@ const AdminLayout = ({ children }: PropsType) => {
 
                 <Layout className={styles.container}>
                     <Sider collapsible className={styles.side}>
-                        <Menu theme={'dark'} mode={'inline'} items={sideMenu} defaultSelectedKeys={['3-2', '3-2-2']} />
+                        <Menu theme={'dark'} mode={'inline'} items={sideMenu} defaultSelectedKeys={['3-2', '3-2-2']} defaultOpenKeys={['3-2']} />
                     </Sider>
                     <Content className={styles.content}>{children}</Content>
                 </Layout>
