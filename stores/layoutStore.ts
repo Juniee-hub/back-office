@@ -1,16 +1,15 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-
-type Theme = 'dark' | 'light'
+import { Theme } from '@/types/theme'
 
 interface LayoutStore {
-    adminNowTheme: Theme
-    setHandelTheme: (value: Theme) => void
+    theme: Theme
+    setTheme: (theme: Theme) => void
 }
 
-export const layoutStore = create<LayoutStore>()(
+export const useLayoutStore = create<LayoutStore>()(
     devtools((set) => ({
-        adminNowTheme: 'dark',
-        setHandelTheme: (value: 'dark' | 'light') => set((state) => ({ ...state, adminNowTheme: value })),
+        theme: 'light',
+        setTheme: (theme: Theme) => set({ theme }),
     }))
 )

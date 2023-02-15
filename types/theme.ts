@@ -5,7 +5,7 @@ interface Token {
     colorInfo?: string
     colorBgBase?: string
 }
-
+export type Theme = 'dark' | 'light'
 export interface ThemeSetting {
     dark: {
         token: Token

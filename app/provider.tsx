@@ -5,11 +5,11 @@ import locale from 'antd/locale/ko_KR'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { layoutStore } from '@/stores/layoutStore'
+import { useLayoutStore } from '@/stores/layoutStore'
 import { ThemeSetting } from '@/types/theme'
 
 const adminThemeSetting: ThemeSetting = {
-    dark: {
+    light: {
         token: {
             colorPrimary: '#88d19c',
             wireframe: false,
@@ -17,7 +17,7 @@ const adminThemeSetting: ThemeSetting = {
             colorInfo: '#c689e2',
         },
     },
-    light: {
+    dark: {
         token: {
             colorPrimary: '#c64cda',
             wireframe: false,
@@ -28,16 +28,12 @@ const adminThemeSetting: ThemeSetting = {
     },
 }
 
-interface LayoutStore {
-    adminNowTheme: 'dark' | 'light'
-}
-
 const queryClient = new QueryClient()
 export function Providers({ children }: { children: JSX.Element }) {
-    const { adminNowTheme }: LayoutStore = layoutStore()
+    const { theme } = useLayoutStore()
 
     // TODO: interface, type alias, class 로 변경해보기..... 현재는 Tuple로 사용중... 가독성이 별로...ㅠㅠ
-    const nowTheme = adminThemeSetting[adminNowTheme]
+    const nowTheme = adminThemeSetting[theme]
 
     return (
         <>
