@@ -1,69 +1,57 @@
 'use client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
-import { DashboardOutlined, ProfileOutlined, UserOutlined, UnorderedListOutlined, ExportOutlined, SwapRightOutlined } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu } from 'antd'
+import { usePathname } from 'next/navigation'
+import _ from 'lodash'
 
 import AdminProfile from '@/components/layout/profile'
 import Clock from '@/components/layout/clock'
+import { findActiveMenu, convertDataToAntdFormat } from '@/controller/menuSetup'
 
 //TODO: 테마...
 import styles from './layout.module.css'
 
 const { Header, Content, Footer, Sider } = Layout
 
-//TODO: 메뉴 시스템 어떻게 할지 고민하기....
-const navMenu = [
-    {
-        key: '1',
-        label: '대시보드',
-        icon: <DashboardOutlined />,
-    },
-    {
-        key: '2',
-        label: '유저',
-        icon: <UserOutlined />,
-    },
-    {
-        key: '3',
-        label: '게시판',
-        icon: <ProfileOutlined />,
-    },
-]
-const sideMenu = [
-    {
-        key: '3-1',
-        label: '게시판 등록',
-        icon: <ExportOutlined />,
-    },
-    {
-        key: '3-2',
-        label: '목록',
-        icon: <UnorderedListOutlined />,
-        children: [
-            {
-                key: '3-2-1',
-                label: '공지사항',
-                icon: <SwapRightOutlined />,
-            },
-            {
-                key: '3-2-2',
-                label: '자유게시판',
-                icon: <SwapRightOutlined />,
-            },
-        ],
-    },
-]
-
 interface PropsType {
     children: JSX.Element
 }
 
 const AdminLayout = ({ children }: PropsType) => {
+    const pathName = usePathname()
+
+    const navMenu = useMemo(() => {
+        const { depth1 } = findActiveMenu(pathName as string)
+        return depth1
+    }, [pathName])
+
+    const navSelected = useMemo(() => {
+        const activeIndex = _.findIndex(navMenu, { active: true })
+        return [navMenu[activeIndex].key]
+    }, [navMenu])
+
+    const sideMenu = useMemo(() => {
+        const { depth2 } = findActiveMenu(pathName as string)
+        return depth2
+    }, [pathName])
+
+    const sideSelected = useMemo(() => {
+        const activeIndex = _.findIndex(sideMenu, { active: true })
+        const activedKey = sideMenu[activeIndex] ? [sideMenu[activeIndex]?.key] : []
+        const children = activedKey ? sideMenu[activeIndex]?.children : []
+        if (children) {
+            const activeChildIndex = _.findIndex(children, { active: true })
+            activedKey.push(children[activeChildIndex].key)
+        }
+
+        return activedKey
+    }, [sideMenu])
+
     return (
         <Layout className={styles.body}>
             <Header className={styles.headWrap}>
-                <Menu mode={'horizontal'} theme={'dark'} items={navMenu} defaultSelectedKeys={['3']} className={styles.navMenu} />
+                <Menu mode={'horizontal'} theme={'dark'} items={convertDataToAntdFormat(navMenu)} defaultSelectedKeys={navSelected} className={styles.navMenu} />
                 <div className={styles.logoWrap}>
                     <Image src={'/images/logo.png'} fill alt={'logo..'} priority />
                 </div>
@@ -81,9 +69,11 @@ const AdminLayout = ({ children }: PropsType) => {
                 </Breadcrumb>
 
                 <Layout className={styles.container}>
-                    <Sider collapsible className={styles.side}>
-                        <Menu theme={'dark'} mode={'inline'} items={sideMenu} defaultSelectedKeys={['3-2', '3-2-2']} defaultOpenKeys={['3-2']} />
-                    </Sider>
+                    {convertDataToAntdFormat(sideMenu).length > 0 && (
+                        <Sider collapsible className={styles.side}>
+                            <Menu theme={'dark'} mode={'inline'} items={convertDataToAntdFormat(sideMenu)} defaultSelectedKeys={sideSelected} defaultOpenKeys={['3-2']} />
+                        </Sider>
+                    )}
                     <Content className={styles.content}>{children}</Content>
                 </Layout>
             </Content>
