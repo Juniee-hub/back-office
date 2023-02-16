@@ -1,54 +1,64 @@
 import React from 'react'
-import { SmileOutlined, LogoutOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Space, Dropdown } from 'antd'
-import type { MenuProps } from 'antd'
+import { SmileOutlined, LogoutOutlined, SettingOutlined, BellOutlined } from '@ant-design/icons'
+import { Avatar, Badge, Dropdown, Card, message } from 'antd'
+import Image from 'next/image'
+
+const { Meta } = Card
 
 import styles from './profile.module.css'
 
-//TODO: 폰트 이미지 적용
+// TODO: 알림정보 가져오기..
+const ProfileCard = () => {
+    const showMessage = (msg: string) => {
+        message.info(msg)
+    }
 
-const items: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <span
-                className={styles.btnWrap}
-                onClick={() => {
-                    console.log('logout Btn Click!!!')
-                }}
-            >
-                <LogoutOutlined />
-                로그아웃
-            </span>
-        ),
-    },
-]
+    return (
+        <Card
+            bordered={false}
+            cover={<Image src={'/images/node-js-logo3.png'} width={'300'} height={'300'} alt="profile.." />}
+            actions={[
+                <SettingOutlined
+                    key="setting"
+                    onClick={() => {
+                        showMessage('설정 버튼 클릭~')
+                    }}
+                />,
+                <Badge key="notice" dot>
+                    <BellOutlined
+                        onClick={() => {
+                            showMessage('알림 버튼 클릭~')
+                        }}
+                    />
+                </Badge>,
+                <LogoutOutlined
+                    key="out"
+                    onClick={() => {
+                        showMessage('로그아웃 버튼 클릭~')
+                    }}
+                />,
+            ]}
+        >
+            <Meta avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />} title={'~~님의 정보'} description={'애플 HR 1 Team'} />
+        </Card>
+    )
+}
 
 const AdminProfile = () => {
     return (
-        <Space size={24} className={styles.wrap}>
-            <Dropdown menu={{ items }} placement="bottom" arrow trigger={['hover']}>
+        <div className={styles.wrap}>
+            <Dropdown
+                dropdownRender={(menu) => {
+                    return <ProfileCard />
+                }}
+                placement="bottom"
+                trigger={['hover']}
+            >
                 <Badge dot>
                     <Avatar shape="square" icon={<SmileOutlined />} />
                 </Badge>
             </Dropdown>
-        </Space>
+        </div>
     )
 }
 
