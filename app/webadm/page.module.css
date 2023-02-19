@@ -1,0 +1,7 @@
+.wrap {
+    display: flex;
+}
+
+.wrap > section {
+    flex: 1;
+}

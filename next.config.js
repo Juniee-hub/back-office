@@ -28,7 +28,7 @@ const nextConfig = {
             },
         ]
     },
-    experimental: { appDir: true },
+    experimental: { appDir: true, esmExternals: 'loose' },
     typescript: {
         ignoreBuildErrors: true,
     },
