@@ -1,0 +1,12 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.wrap :global(.ant-list-item):hover {
+    border-radius: 10px;
+    box-shadow: 1px 0px 20px 1px rgb(0 0 0 / 10%);
+}
+.wrap :global(.ant-list-item-meta) {
+    align-items: center;
+}
