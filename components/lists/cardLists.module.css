@@ -1,0 +1,10 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wrap > * {
+    box-shadow: 1px 0px 20px 1px rgb(0 0 0 / 6%);
+    border-radius: 10px;
+}

@@ -1,8 +1,8 @@
 import AreaGraph from '@/components/dashboard/areaGraph'
+import GetBoardList from '@/components/lists/getBoardList'
 import { GetBoardStatisticsData } from '@/controller/dashboard'
 
 import styles from './page.module.css'
-//TODO: 폰트 적용
 
 export const revalidate = 0
 
@@ -11,7 +11,9 @@ const AdminHome = async () => {
 
     return (
         <div className={styles.wrap}>
-            <section></section>
+            <section>
+                <GetBoardList listType={'card'} apiUrl={'/api/board'} limit={2} />
+            </section>
 
             <section>
                 <AreaGraph title={'게시글 수'} graphData={graphData} tooltip={{ name: '새 글', value: '개' }} />

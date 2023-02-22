@@ -1,5 +1,6 @@
 .wrap {
     display: flex;
+    gap: 1rem;
 }
 
 .wrap > section {

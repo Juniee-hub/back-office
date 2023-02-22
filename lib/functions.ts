@@ -85,3 +85,7 @@ export const firstUpperString = (str: string) => {
     const others = str.slice(1)
     return firstChar.toUpperCase() + others
 }
+
+export const randomFromArray = <T>(arr: T[]): T | undefined => {
+    return arr.sort(() => Math.random() - 0.5).shift()
+}
