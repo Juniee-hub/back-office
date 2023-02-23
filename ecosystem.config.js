@@ -2,9 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'PruufConferenceAdmin',
-            script: 'server.js',
-            // args: "startServer",
-            // cwd: "C:UsersjmyooDesktop코드연습\nextjsDeployTest",
+            script: 'server.ts',
             autorestart: true,
             // watch: true, // 프로젝트가 리스타트되거나 파일이 체인지 될경우를 와칭시켜줌
             instances: 4, // 인스턴스를 일단 4개정도 띄운다.
