@@ -1,13 +1,16 @@
 'use client'
 import React, { useMemo } from 'react'
 import Image from 'next/image'
-import { Breadcrumb, Layout, Menu } from 'antd'
+import { Breadcrumb, Dropdown, Layout, Menu } from 'antd'
 import { usePathname } from 'next/navigation'
 import _ from 'lodash'
+import { MenuOutlined } from '@ant-design/icons'
 
 import AdminProfile from '@/components/layout/profile'
 import Clock from '@/components/layout/clock'
 import { findActiveMenu, convertDataToAntdFormat } from '@/controller/menuSetup'
+
+import useDetectDeviceSize from '@/hooks/useDetectMobile'
 
 //TODO: 테마...
 import styles from './layout.module.css'
@@ -48,15 +51,33 @@ const AdminLayout = ({ children }: PropsType) => {
         return activedKey
     }, [sideMenu])
 
+    const { isMobile } = useDetectDeviceSize()
+
     return (
         <Layout className={styles.body}>
             <Header className={styles.headWrap}>
-                <Menu mode={'horizontal'} theme={'dark'} items={convertDataToAntdFormat(navMenu)} defaultSelectedKeys={navSelected} className={styles.navMenu} />
+                {isMobile === false ? (
+                    <Menu mode={'horizontal'} theme={'dark'} items={convertDataToAntdFormat(navMenu)} defaultSelectedKeys={navSelected} className={styles.navMenu} />
+                ) : (
+                    <Dropdown
+                        dropdownRender={() => {
+                            return <Menu theme={'dark'} items={convertDataToAntdFormat(navMenu)} defaultSelectedKeys={navSelected} className={styles.navMenu} />
+                        }}
+                        placement={'bottom'}
+                        trigger={['hover', 'click']}
+                    >
+                        <div className={styles.dropdown}>
+                            <MenuOutlined />
+                        </div>
+                    </Dropdown>
+                )}
+
                 <div className={styles.logoWrap}>
                     <Image src={'/images/logo.png'} fill alt={'logo..'} priority />
                 </div>
                 <div className={styles.profileWrap}>
-                    <Clock />
+                    {isMobile === false && <Clock />}
+
                     <AdminProfile />
                 </div>
             </Header>

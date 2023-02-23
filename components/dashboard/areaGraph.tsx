@@ -19,7 +19,7 @@ type GraphPropTypes = {
 const AreaGraph = ({ title, graphData, tooltip }: GraphPropTypes) => {
     const config = {
         data: graphData,
-        padding: [30, 0],
+        padding: [30, 30],
         renderer: 'svg',
         xField: 'xField',
         yField: 'yField',

@@ -1,3 +1,5 @@
+@value mediaMobileQuery,mediaTabletQuery from '@/styles/size.css';
+
 .wrap {
     display: flex;
     gap: 1rem;
@@ -5,4 +7,11 @@
 
 .wrap > section {
     flex: 1;
+    overflow: hidden;
+}
+
+@media (max-width: mediaMobileQuery) {
+    .wrap {
+        flex-direction: column;
+    }
 }
