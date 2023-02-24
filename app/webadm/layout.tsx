@@ -91,7 +91,7 @@ const AdminLayout = ({ children }: PropsType) => {
 
                 <Layout className={styles.container}>
                     {convertDataToAntdFormat(sideMenu).length > 0 && (
-                        <Sider collapsible className={styles.side}>
+                        <Sider collapsible className={styles.side} breakpoint={'lg'}>
                             <Menu theme={'dark'} mode={'inline'} items={convertDataToAntdFormat(sideMenu)} defaultSelectedKeys={sideSelected} defaultOpenKeys={['3-2']} />
                         </Sider>
                     )}

@@ -1,3 +1,5 @@
+@value mediaMobileQuery,mediaTabletQuery from '@/styles/size.css';
+
 .wrap {
     display: flex;
     padding: 2rem;
@@ -29,4 +31,15 @@
     align-items: center;
     padding-bottom: 0.5em;
     border-bottom: 1px solid rgba(5, 5, 5, 0.15);
+}
+
+@media (max-width: mediaMobileQuery) {
+    .wrap {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+    }
+    .input {
+        width: 80%;
+    }
 }
