@@ -24,7 +24,7 @@ const menuInfo: MenuItem[] = [
     {
         key: '3',
         name: '게시판',
-        url: `/${adminFolderName}/board`,
+        url: '',
         active: false,
         icon: <ProfileOutlined />,
         children: [
@@ -79,7 +79,8 @@ function findItemsWithSameUrl(items: MenuItem[], url: string): MenuItem[] {
 }
 
 export const findActiveMenu = (findUrl: string) => {
-    const atciveMenu = findItemsWithSameUrl(menuInfo, findUrl).shift()
+    const defaultMenuInfo = [...menuInfo]
+    const atciveMenu = findItemsWithSameUrl([...defaultMenuInfo], findUrl).shift()
 
     if (atciveMenu) {
         const parentKeys = atciveMenu.key.split('-')
@@ -88,11 +89,12 @@ export const findActiveMenu = (findUrl: string) => {
         const depth2Key = parentKeys.slice(0, 2).join('-')
         const depth3Key = parentKeys.slice(0, 3).join('-')
 
-        const depth1Index = _.findIndex(menuInfo, { key: parentKeys[0] })
-        const activeDepth1 = { ...menuInfo[depth1Index], active: true }
-        delete menuInfo[depth1Index]
-        menuInfo[depth1Index] = activeDepth1
-        const depth1 = [...menuInfo]
+        const depth1Index = _.findIndex([...defaultMenuInfo], { key: parentKeys[0] })
+
+        const activeDepth1 = { ...defaultMenuInfo[depth1Index], active: true }
+        delete defaultMenuInfo[depth1Index]
+        defaultMenuInfo[depth1Index] = activeDepth1
+        const depth1 = [...defaultMenuInfo]
 
         let depth2: MenuItem[] = activeDepth1.children ? [...activeDepth1.children] : []
         let depth3: MenuItem[] = []
@@ -126,7 +128,7 @@ export const convertDataToAntdFormat = (menu: MenuItem[]): AntdMenuItem[] => {
         const { key, name, url, icon, children } = m
         const convertMenuType = {
             key,
-            label: <Link href={url}>{name}</Link>,
+            label: children ? name : <Link href={url}>{name}</Link>,
             icon,
             ...(children && { children: convertDataToAntdFormat(children) }),
         }
