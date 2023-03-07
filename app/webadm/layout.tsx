@@ -51,6 +51,14 @@ const AdminLayout = ({ children }: PropsType) => {
         return activedKey
     }, [sideMenu])
 
+    // Breadcrumb 표기..
+    const breadItems = useMemo(() => {
+        const activeMenuInfo = [_.find(navMenu, { key: navSelected[0] }), _.find(sideMenu, { key: sideSelected[0] })].filter(Boolean)
+        return activeMenuInfo.map((i) => {
+            return { title: i?.name }
+        })
+    }, [pathName])
+
     const { isMobile } = useDetectDeviceSize()
 
     return (
@@ -83,16 +91,13 @@ const AdminLayout = ({ children }: PropsType) => {
             </Header>
 
             <Content className={styles.mainWrap}>
-                <Breadcrumb className={styles.navi}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
+                <Breadcrumb items={breadItems} className={styles.navi} />
 
                 <Layout className={styles.container}>
                     {convertDataToAntdFormat(sideMenu).length > 0 && (
                         <Sider collapsible className={styles.side} breakpoint={'lg'}>
-                            <Menu theme={'dark'} mode={'inline'} items={convertDataToAntdFormat(sideMenu)} defaultSelectedKeys={sideSelected} defaultOpenKeys={['3-2']} />
+                            {/* <Menu theme={'dark'} mode={'inline'} items={convertDataToAntdFormat(sideMenu)} defaultSelectedKeys={sideSelected} defaultOpenKeys={['3-2']} /> */}
+                            <Menu theme={'dark'} mode={'inline'} items={convertDataToAntdFormat(sideMenu)} defaultSelectedKeys={sideSelected} />
                         </Sider>
                     )}
                     <Content className={styles.content}>{children}</Content>
