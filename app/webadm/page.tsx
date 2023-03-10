@@ -1,8 +1,15 @@
+import type { Metadata } from 'next'
+
 import AreaGraph from '@/components/dashboard/areaGraph'
 import GetBoardList from '@/components/lists/getBoardList'
 import { GetBoardStatisticsData } from '@/controller/dashboard'
 
 import styles from './page.module.css'
+
+export const metadata: Metadata = {
+    title: '관리 시스템 - 대시보드',
+    description: 'Welcome to Next.js',
+}
 
 export const revalidate = 0
 
