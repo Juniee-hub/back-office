@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Input, Button, Dropdown, Select } from 'antd'
 import { FilterOutlined, UserAddOutlined, SearchOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/navigation'
 
 import styles from './searchBox.module.css'
 
@@ -13,6 +14,10 @@ type FiletrOption = {
 type FilterBoxProps = {
     selectOptions: FiletrOption[]
     closeFilterBoxAction: () => void
+}
+
+type SearchBoxProps = FilterBoxProps & {
+    addBtnUrl: string
 }
 
 const FileterBox = ({ selectOptions, closeFilterBoxAction }: FilterBoxProps) => {
@@ -46,8 +51,10 @@ const FileterBox = ({ selectOptions, closeFilterBoxAction }: FilterBoxProps) => 
     )
 }
 
-const SearchBox = ({ selectOptions }: Partial<FilterBoxProps>) => {
+const SearchBox = ({ selectOptions, addBtnUrl }: Partial<SearchBoxProps>) => {
     const [filterBoxOpen, setFilterBoxOpen] = useState<boolean>(false)
+
+    const router = useRouter()
 
     const closeFilterBoxAction = () => {
         setFilterBoxOpen(false)
@@ -91,9 +98,17 @@ const SearchBox = ({ selectOptions }: Partial<FilterBoxProps>) => {
                     </Button>
                 </Dropdown>
 
-                <Button type={'primary'} icon={<UserAddOutlined />}>
-                    추가
-                </Button>
+                {addBtnUrl && (
+                    <Button
+                        type={'primary'}
+                        onClick={() => {
+                            router.push(addBtnUrl)
+                        }}
+                        icon={<UserAddOutlined />}
+                    >
+                        추가
+                    </Button>
+                )}
             </div>
         </div>
     )

@@ -1,3 +1,4 @@
+import { array } from './../node_modules/@types/prop-types/index.d'
 import dayjs from 'dayjs'
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -88,4 +89,67 @@ export const firstUpperString = (str: string) => {
 
 export const randomFromArray = <T>(arr: T[]): T | undefined => {
     return arr.sort(() => Math.random() - 0.5).shift()
+}
+
+export const removeSubstrings = (str: string, substrings?: string[]): string => {
+    if (!substrings) return str
+
+    let result = str
+    for (const substring of substrings) {
+        result = result.replace(substring, '')
+    }
+    return result
+}
+
+// Tel 관련 input 처리
+export const handleTelInput = (tel: string): string | false => {
+    const regex = /[^0-9]/g
+    const onlyNumber = tel.replace(regex, '')
+    let resultValue = tel
+    if (onlyNumber.substring(0, 2) === '02') {
+        if (onlyNumber.length === 10) {
+            const newTel = onlyNumber.replace(/^(\d{0,2})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3').replace(/\-{1,2}$/g, '')
+            resultValue = newTel
+        } else if (onlyNumber.length < 10) {
+            const newTel = onlyNumber.replace(/^(\d{0,2})(\d{0,3})(\d{0,4})$/g, '$1-$2-$3').replace(/\-{1,2}$/g, '')
+            resultValue = newTel
+        } else {
+            return false
+        }
+        return resultValue
+    }
+    if (onlyNumber.length === 11) {
+        const newTel = onlyNumber.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3').replace(/\-{1,2}$/g, '')
+        resultValue = newTel
+    } else if (onlyNumber.length < 11) {
+        const newTel = onlyNumber.replace(/^(\d{0,3})(\d{0,3})(\d{0,4})$/g, '$1-$2-$3').replace(/\-{1,2}$/g, '')
+        resultValue = newTel
+    } else {
+        return false
+    }
+
+    return resultValue
+}
+
+// Birth 관련 Input 처리
+export const handleBrithInput = (birth: string, length = 8): string | false => {
+    const regexNumber = /[^0-9]/g
+    const onlyNumber = birth.replace(regexNumber, '')
+
+    if (onlyNumber.length > length) {
+        return false
+    }
+
+    if (onlyNumber.length !== length) {
+        return birth
+    }
+    if (length === 6) {
+        return onlyNumber.replace(/^(\d{0,2})(\d{0,2})(\d{0,2})$/g, '$1.$2.$3').replace(/\-{1,2}$/g, '')
+    }
+
+    if (length === 8) {
+        return onlyNumber.replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, '$1.$2.$3').replace(/\-{1,2}$/g, '')
+    }
+
+    return birth
 }

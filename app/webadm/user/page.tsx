@@ -5,10 +5,12 @@ import SearchBox from '@/components/layout/searchBox'
 import styles from './page.module.css'
 
 const AdminUserPage = () => {
+    const addBtnUrl = '/webadm/user/form'
+
     return (
         <article className={styles.wrap}>
             <section>
-                <SearchBox />
+                <SearchBox addBtnUrl={addBtnUrl} />
             </section>
 
             <UserList />

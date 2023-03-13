@@ -2,8 +2,12 @@ import Link from 'next/link'
 import { DashboardOutlined, ProfileOutlined, UserOutlined, UnorderedListOutlined, ExportOutlined, SwapRightOutlined } from '@ant-design/icons'
 import _ from 'lodash'
 import { MenuItem, AntdMenuItem } from '@/types/menu'
+import { removeSubstrings } from '@/lib/functions'
 
 const adminFolderName: string = 'webadm'
+
+// 각 메뉴 중 기본형 설정... view,form,detail 등등...
+const basicUrlSuffix = ['/view', '/form', '/detail']
 
 //TODO: Databse or API Fetch로 변경 고려해보기..
 const menuInfo: MenuItem[] = [
@@ -80,7 +84,11 @@ function findItemsWithSameUrl(items: MenuItem[], url: string): MenuItem[] {
 
 export const findActiveMenu = (findUrl: string) => {
     const defaultMenuInfo = [...menuInfo]
-    const atciveMenu = findItemsWithSameUrl([...defaultMenuInfo], findUrl).shift()
+
+    // 치환하여 active 메뉴 검색 ( 기본형인 view,form,detail 는 제외... )
+    const findValidUrl = removeSubstrings(findUrl, basicUrlSuffix)
+
+    const atciveMenu = findItemsWithSameUrl([...defaultMenuInfo], findValidUrl).shift()
 
     if (atciveMenu) {
         const parentKeys = atciveMenu.key.split('-')
